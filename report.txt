@@ -25,6 +25,12 @@ Used for data preprocessing and analytics.
 Efficient data manipulation and analysis capabilities.
 Matplotlib & Seaborn:
 Employed for visualizing revenue trends, cancellation rates, and other analytics.
+Real-time Updates: 
+SQLite ensures data changes are reflected in real-time.
+History Tracking: 
+The system logs each query and its response in a query_history table.
+Health Check: 
+A /health endpoint to check the status of the database and FAISS engine.
 
 3. Step-by-Step Solution Explanation
 Step 1: Data Collection & Preprocessing
@@ -66,7 +72,12 @@ LLM Inaccuracy:
 Some responses were generic.
 Improved by enhancing the context length and refining the LLM prompt.
 
-Step 4: API Development
+Step 4: Database Integration with SQLite
+Stores hotel booking data in a SQLite database.
+Tracks query history with timestamps for monitoring.
+Supports real-time updates by directly reflecting changes from the CSV file.
+
+Step 5: API Development
 Goal: Build a REST API to serve analytics and RAG-based Q&A.
 Approach:
 FastAPI Framework: For asynchronous, scalable, and easy-to-document endpoints.
@@ -75,6 +86,7 @@ Endpoints Created:
 /ask: To handle RAG-based Q&A.
 API Testing:
 Used curl and Postman for local testing.
+
 Challenges:
 File Path Issues:
 Encountered FileNotFoundError due to incorrect file paths.
@@ -107,7 +119,21 @@ Solution:
 Tuned the prompt structure for better context comprehension.
 Increased context window size to provide more information.
 
-4.4. API Development
+4.4. SQLite
+Challenge:
+Missing tables in the SQLite database during testing.
+CSV data import to SQLite failed due to mismatched column names.
+Data changes were not reflected immediately.
+Solution:
+Added a separate create_db.py script to explicitly create tables before loading data.
+Ensured consistent database schema creation.
+Cleaned the CSV before loading.
+Verified column names and types to match SQLite schema.
+Added exception handling to gracefully manage import errors.
+Integrated SQLite to allow real-time data reflection.
+
+
+4.5. API Development
 Challenge:
 FileNotFoundError due to incorrect file paths.
 Solution:
